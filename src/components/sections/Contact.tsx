@@ -7,7 +7,7 @@ export function Contact() {
     <>
       <section id="contact" className="mx-auto max-w-5xl px-5 pt-12 pb-24 sm:px-8 sm:pb-32">
         <div className="rounded-[2rem] bg-fg px-6 py-14 text-bg sm:px-12 sm:py-20">
-          <p className="font-mono text-xs uppercase tracking-[0.18em] opacity-60">05 — Contact</p>
+          <p className="font-mono text-xs uppercase tracking-[0.18em] opacity-60">04 — Contact</p>
           <h2 className="mt-6 max-w-3xl text-4xl leading-[1.05] font-semibold tracking-tight text-balance sm:text-6xl">
             Have an app that needs to <Serif>ship</Serif>? Let&apos;s talk.
           </h2>
@@ -41,7 +41,7 @@ export function Contact() {
       </section>
 
       <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-5xl flex-col gap-2 px-5 py-8 text-xs text-subtle sm:flex-row sm:items-center sm:justify-between sm:px-8">
+        <div className="mx-auto flex max-w-5xl flex-col gap-2 px-5 pt-8 pb-24 text-xs text-subtle sm:flex-row sm:pb-8 sm:items-center sm:justify-between sm:px-8">
           <p>
             © {profile.name}
           </p>

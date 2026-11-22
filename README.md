@@ -12,6 +12,10 @@ npm run build   # production build
 npm run lint
 ```
 
+## Docs & change rules
+
+See [`docs/`](docs/README.md). **Read [`docs/RULES.md`](docs/RULES.md) before making changes** and log each change in [`docs/CHANGELOG.md`](docs/CHANGELOG.md).
+
 ## Editing content
 
 All copy lives in [`src/data/profile.ts`](src/data/profile.ts) — experience, projects,

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { ReactNode } from "react";
 import { experience, featuredProjects, profile, stats } from "@/data/profile";
 import { ArrowDown, GitHub, LinkedIn, Mail } from "../icons";
@@ -10,7 +11,7 @@ export function Hero() {
     <section id="top" className="relative overflow-hidden">
       <div className="dot-grid pointer-events-none absolute inset-0 -z-10" aria-hidden />
 
-      <div className="mx-auto max-w-5xl px-5 pt-20 pb-16 sm:px-8 sm:pt-28 sm:pb-24">
+      <div className="mx-auto max-w-5xl px-5 pt-6 pb-16 sm:px-8 sm:pt-10 sm:pb-24">
         <p className="rise inline-flex items-center gap-2.5 rounded-full border border-line bg-surface px-3.5 py-1.5 text-xs text-muted">
           <span className="pulse size-2 rounded-full bg-accent" aria-hidden />
           {current.title} at <span className="font-medium text-fg">{current.company}</span>
@@ -37,7 +38,7 @@ export function Hero() {
         >
           <a
             href="#projects"
-            className="inline-flex items-center gap-2 rounded-full bg-fg px-5 py-2.5 text-sm font-medium text-bg transition-opacity hover:opacity-85"
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-fg shadow-[0_8px_24px_-10px_var(--primary)] transition-colors hover:bg-primary-hover"
           >
             See my work <ArrowDown />
           </a>
@@ -77,8 +78,10 @@ export function Hero() {
               </span>
             </p>
             <p className="mt-2 text-sm leading-relaxed text-muted">
-              Leading Flutter development on two enterprise products, both released to the App Store
-              and Google Play.
+              <span className="font-medium text-fg">3 years</span> of experience and{" "}
+              <span className="font-medium text-fg">20+ projects</span> delivered, with{" "}
+              <span className="font-medium text-fg">15+</span> live on the Play Store and in
+              production.
             </p>
           </div>
           <ul className="flex flex-wrap gap-2 sm:flex-col sm:items-end">
@@ -86,8 +89,17 @@ export function Hero() {
               <li key={p.name}>
                 <a
                   href="#projects"
-                  className="inline-flex items-center gap-2 rounded-full bg-accent-soft px-4 py-2 text-sm font-medium text-accent transition-opacity hover:opacity-80"
+                  className="inline-flex items-center gap-2 rounded-full bg-accent-soft py-1.5 pr-4 pl-1.5 text-sm font-medium text-accent transition-opacity hover:opacity-80"
                 >
+                  {p.icon && (
+                    <Image
+                      src={p.icon}
+                      alt=""
+                      width={24}
+                      height={24}
+                      className="size-6 rounded-full"
+                    />
+                  )}
                   {p.name}
                   <span className="text-xs font-normal opacity-70">{p.kind.split(" · ")[0]}</span>
                 </a>

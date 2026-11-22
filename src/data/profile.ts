@@ -1,27 +1,49 @@
 // Single source of truth for all portfolio content.
 // Edit this file to update the site — components only render what's here.
+// See docs/RULES.md before changing anything.
 
 export const profile = {
   name: "Abhishek Saxena",
   initials: "AS",
   role: "Software Engineer",
+  // Profile photo — the LinkedIn headshot, cropped square (480px).
+  // Replace the file to update it. Set to null to show initials instead.
+  photo: "/people/abhishek.jpg" as string | null,
   focus: "Flutter · Mobile · Spring Boot",
   location: "Uttar Pradesh, India",
   email: "abhisheksaxenaswe@gmail.com",
+  // International format, digits only — used for the WhatsApp button.
+  whatsapp: "918528284249",
   links: {
     github: "https://github.com/abhisheksaxena85",
     linkedin: "https://www.linkedin.com/in/abhisheksaxena85",
   },
   summary:
-    "Software engineer with 2.5+ years of experience shipping cross-platform mobile apps with Flutter. I've taken enterprise products from first commit to the App Store and Google Play, working alongside a team of ex-Microsoft engineers.",
+    "Software engineer with 3 years of experience and 20+ projects delivered, working across mobile and backend: Flutter for cross-platform apps, native Android, and Spring Boot on the server. I've taken enterprise products from first commit to production, working alongside a team of ex-Microsoft engineers.",
+} as const;
+
+// Pre-filled messages for the floating contact buttons.
+export const contactPrompts = {
+  emailSubject: "Just visited your portfolio — let's connect",
+  emailBody:
+    "Hi Abhishek,\n\nI just came across your portfolio and would love to connect.\n\n",
+  whatsappText: "Hi Abhishek, I just visited your portfolio and would like to connect.",
 } as const;
 
 export const stats = [
-  { value: "2.5+", label: "Years shipping software" },
-  { value: "2", label: "Enterprise apps in production" },
-  { value: "iOS + Android", label: "Released on both stores" },
+  { value: "3 years", label: "Professional experience" },
+  { value: "20+", label: "Projects delivered" },
+  { value: "15+", label: "Projects live on Play Store & in production" },
   { value: "Ex-Microsoft", label: "Engineers I build alongside" },
 ] as const;
+
+export type Person = {
+  name: string;
+  role: string;
+  linkedin: string;
+  // Path under /public. null → initials avatar.
+  photo: string | null;
+};
 
 export type Role = {
   company: string;
@@ -30,8 +52,10 @@ export type Role = {
   type: string;
   featured?: boolean;
   badge?: string;
+  logo?: { src: string; width: number; height: number };
   points: string[];
-  tags: string[];
+  tags?: string[];
+  founders?: Person[];
 };
 
 export const experience: Role[] = [
@@ -42,13 +66,29 @@ export const experience: Role[] = [
     type: "Full-time",
     featured: true,
     badge: "Team of ex-Microsoft engineers",
+    logo: { src: "/logos/elnovalabs.png", width: 1096, height: 193 },
     points: [
-      "Lead cross-platform Flutter development for two enterprise apps: Twizzr, a quick-commerce merchant platform, and Softboard Lite, a school ERP for parents.",
+      "Lead cross-platform Flutter development for two enterprise apps: Twizzr, a hyperlocal marketplace, and Softboard Lite, an ERP for coaching institutes.",
       "Built real-time interfaces for live inventory and order workflows, plus multi-student academic tracking, exams, homework and fee management.",
+      "Worked on the backend for Twizzr and Softboard Lite with Spring Boot and MySQL, alongside the mobile apps.",
       "Reduced API latency and redundant widget rebuilds through GetX / BLoC state management and data caching.",
       "Owned delivery end-to-end: development and testing through release on the App Store and Google Play.",
     ],
-    tags: ["Flutter", "Dart", "Clean Architecture", "MVVM", "GetX", "BLoC"],
+    tags: ["Flutter", "Dart", "Spring Boot", "MySQL", "Clean Architecture", "MVVM", "GetX", "BLoC"],
+    founders: [
+      {
+        name: "Sachin Srivastava",
+        role: "Founder",
+        linkedin: "https://www.linkedin.com/in/sachinsrivastava24/",
+        photo: "/people/sachin-srivastava.jpg",
+      },
+      {
+        name: "Ashutosh Singh",
+        role: "Co-founder",
+        linkedin: "https://www.linkedin.com/in/ashutosh-singh-b5b771189/",
+        photo: "/people/ashutosh-singh.jpg",
+      },
+    ],
   },
   {
     company: "Altakart",
@@ -62,7 +102,22 @@ export const experience: Role[] = [
     ],
     tags: ["Flutter", "GetX", "BLoC", "Firebase", "REST APIs"],
   },
+  {
+    company: "Freelance & Personal Projects",
+    title: "Independent",
+    period: "Ongoing",
+    type: "Alongside full-time work",
+    points: [
+      "Beyond my full-time roles, I've also delivered freelance projects for clients and keep building personal projects — a steady way to explore new tools, architectures and full-stack ideas.",
+    ],
+  },
 ];
+
+export type StoreLinks = {
+  appStore?: string;
+  playStore?: string;
+  website?: string;
+};
 
 export type Project = {
   name: string;
@@ -72,35 +127,64 @@ export type Project = {
   tags: string[];
   status?: string;
   href?: string;
+  icon?: string;
+  screenshots?: string[];
+  links?: StoreLinks;
+  credit?: string;
 };
 
-// Shipped, production work — rendered large.
+// Shipped, production work — rendered large with icon, screenshots and store links.
+// Copy, icons and screenshots: elnovalabs.com, twizzr.in and the App Store listings.
 export const featuredProjects: Project[] = [
   {
     name: "Twizzr",
-    kind: "Merchant app · Hyperlocal quick-commerce",
+    kind: "Hyperlocal marketplace · iOS & Android",
     description:
-      "The merchant side of a hyperlocal commerce platform connecting neighbourhood shops with nearby customers — built to run a store's day from a phone.",
+      "A digital marketplace for trusted neighbourhood shops. Customers order products or book services from every nearby store in one app, and merchants run their store from their phone.",
     highlights: [
       "Real-time order tracking over WebSockets",
-      "REST integration with Dio",
+      "REST integration with Dio, state with GetX",
       "Push & local notifications for order updates",
     ],
     tags: ["Flutter", "GetX", "WebSockets", "Dio"],
-    status: "Shipped · iOS & Android",
+    status: "Live on App Store & Google Play",
+    icon: "/projects/twizzr/icon.jpg",
+    screenshots: [
+      "/projects/twizzr/screen-1.webp",
+      "/projects/twizzr/screen-2.webp",
+      "/projects/twizzr/screen-3.webp",
+    ],
+    links: {
+      website: "https://twizzr.in",
+      appStore: "https://apps.apple.com/in/app/twizzr/id6751235109",
+      playStore: "https://play.google.com/store/apps/details?id=com.enl.twizzr",
+    },
+    credit: "A product by EL Nova Labs",
   },
   {
     name: "Softboard Lite",
-    kind: "Education ERP · Parent app",
+    kind: "Education ERP · Members app",
     description:
-      "A parent-centric school companion: attendance, digital notices, homework, exams and fees for multiple students in one place.",
+      "An all-in-one ERP for coaching institutes covering attendance, schedules, tests, fees, homework and a digital notice board. The mobile app keeps students and parents connected on the go.",
     highlights: [
       "MVVM architecture with GetX",
       "SQLite for local persistence",
       "Push notifications for notices and homework",
     ],
     tags: ["Flutter", "MVVM", "SQLite", "Firebase"],
-    status: "Shipped · iOS & Android",
+    status: "Live on App Store & Google Play",
+    icon: "/projects/softboard-lite/icon.jpg",
+    screenshots: [
+      "/projects/softboard-lite/screen-1.webp",
+      "/projects/softboard-lite/screen-2.webp",
+      "/projects/softboard-lite/screen-3.webp",
+    ],
+    links: {
+      website: "https://elnovalabs.com/products/softboard-lite",
+      appStore: "https://apps.apple.com/in/app/members-lite/id6689505235",
+      playStore: "https://play.google.com/store/apps/details?id=com.enl.members_lite",
+    },
+    credit: "A product by EL Nova Labs",
   },
 ];
 
@@ -139,6 +223,7 @@ export const otherProjects: Project[] = [
   },
 ];
 
+// NOTE: Pending replacement with the skills list from LinkedIn (see docs/CHANGELOG.md).
 export const stack = [
   {
     group: "Mobile",
@@ -182,34 +267,5 @@ export const stack = [
       "Agile",
       "DSA",
     ],
-  },
-] as const;
-
-export const journey = [
-  {
-    when: "2022",
-    title: "Started a BCA at MJPR University",
-    note: "Bachelor of Computer Applications, 2022 — 2025.",
-  },
-  {
-    when: "Jan 2024",
-    title: "First full-time role — Flutter Developer at Altakart",
-    note: "Learned to ship production UI and keep a codebase clean as it grows.",
-  },
-  {
-    when: "Jul 2024",
-    title: "Joined ElNovaLabs as Software Engineer I",
-    note: "Building with ex-Microsoft engineers and leading two enterprise Flutter apps.",
-    highlight: true,
-  },
-  {
-    when: "2025",
-    title: "Graduated BCA — while working full-time",
-    note: "Completed the degree alongside a full-time engineering role.",
-  },
-  {
-    when: "Now",
-    title: "Going full stack",
-    note: "Pairing Flutter with Spring Boot to own features from API to UI.",
   },
 ] as const;

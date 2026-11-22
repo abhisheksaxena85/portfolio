@@ -3,44 +3,55 @@
 /* Theme is driven by [data-theme] on <html>, set before paint in layout.tsx. */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
+/* Light: pure white page, faintly cool-grey cards so they still read as cards. */
 :root {
-  --bg: #fafaf7;
-  --surface: #ffffff;
-  --fg: #111111;
-  --muted: #5f5f5f;
-  --subtle: #8f8f8f;
-  --line: #e7e5df;
-  --accent: #2b55ff;
-  --accent-soft: #edf1ff;
-  --dot: #d9d6cf;
+  --bg: #ffffff;
+  --surface: #f6f8fb;
+  --fg: #0f1115;
+  --muted: #5a5f6a;
+  --subtle: #8a909b;
+  --line: #e4e8ee;
+  --accent: #2563eb;
+  --accent-soft: #eaf1ff;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-fg: #ffffff;
+  --dot: #dfe4ec;
   color-scheme: light;
 }
 
+/* Dark: charcoal page with lifted card surfaces — not pure black. */
 [data-theme="dark"] {
-  --bg: #0b0b0c;
-  --surface: #131315;
-  --fg: #ededed;
-  --muted: #a3a3a8;
-  --subtle: #6c6c72;
-  --line: #242427;
-  --accent: #7f9cff;
-  --accent-soft: #151a2e;
-  --dot: #26262a;
+  --bg: #17181b;
+  --surface: #212226;
+  --fg: #ececee;
+  --muted: #a9abb2;
+  --subtle: #767982;
+  --line: #303238;
+  --accent: #82a0ff;
+  --accent-soft: #232a40;
+  --primary: #3b68f0;
+  --primary-hover: #4d77f5;
+  --primary-fg: #ffffff;
+  --dot: #2c2e33;
   color-scheme: dark;
 }
 
-/* No-JS fallback: follow the OS preference. */
+/* No-JS fallback: follow the OS preference. Keep in sync with the block above. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --bg: #0b0b0c;
-    --surface: #131315;
-    --fg: #ededed;
-    --muted: #a3a3a8;
-    --subtle: #6c6c72;
-    --line: #242427;
-    --accent: #7f9cff;
-    --accent-soft: #151a2e;
-    --dot: #26262a;
+    --bg: #17181b;
+    --surface: #212226;
+    --fg: #ececee;
+    --muted: #a9abb2;
+    --subtle: #767982;
+    --line: #303238;
+    --accent: #82a0ff;
+    --accent-soft: #232a40;
+    --primary: #3b68f0;
+    --primary-hover: #4d77f5;
+    --primary-fg: #ffffff;
+    --dot: #2c2e33;
     color-scheme: dark;
   }
 }
@@ -54,6 +65,9 @@
   --color-line: var(--line);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-fg: var(--primary-fg);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-serif: var(--font-instrument-serif);
