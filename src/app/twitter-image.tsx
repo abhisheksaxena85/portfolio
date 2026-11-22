@@ -1,0 +1,15 @@
+// twitter:image: same artwork as the Open Graph image, for X (Twitter) cards.
+import {
+  renderSocialImage,
+  socialImageAlt,
+  socialImageContentType,
+  socialImageSize,
+} from "@/lib/social-image";
+
+export const alt = socialImageAlt;
+export const size = socialImageSize;
+export const contentType = socialImageContentType;
+
+export default function Image() {
+  return renderSocialImage();
+}

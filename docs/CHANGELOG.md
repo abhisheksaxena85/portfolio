@@ -4,6 +4,37 @@ Newest first. Every change follows [RULES.md](RULES.md).
 
 ---
 
+## 2026-11-22 · v1.5 · SEO metadata and LinkedIn link preview
+
+### Requested
+Add all the metadata needed for SEO so search results show proper information, plus a preview image so links shared on LinkedIn show a card. LinkedIn currently shows no image.
+
+### Changed
+| Change | Files |
+| --- | --- |
+| **Root cause of the missing LinkedIn preview:** there was no `og:image`, no `metadataBase` (so no absolute URLs), and `og:url`/`og:site_name` were missing. New `seo` block: a 60-character-range title, a meta description under 160 characters (the old one reused the ~330-character summary, which Google truncates), keywords and the OG tagline. Every figure is already on the page (3 years, 20+, 15+) | `src/data/profile.ts` |
+| Site origin resolved from `NEXT_PUBLIC_SITE_URL`, falling back to Vercel's `VERCEL_PROJECT_PRODUCTION_URL`, then `localhost:3000` | `src/lib/site.ts` (new) |
+| Full metadata: `metadataBase`, title template, canonical `/`, Open Graph `profile` (url, site name, locale, first/last name), Twitter `summary_large_image`, robots + googleBot (`max-image-preview: large`), author/creator/publisher, `formatDetection` | `src/app/layout.tsx` |
+| 1200×630 PNG preview image generated at build time from profile data: current role, name, role, tagline, headshot and three stats. Served as `og:image` and `twitter:image` with width, height, type and alt. About 150 KB, well under LinkedIn's 5 MB limit. The photo is read with `readFileSync` at module scope so the route prerenders statically | `src/lib/social-image.tsx`, `src/app/opengraph-image.tsx`, `src/app/twitter-image.tsx` (new) |
+| `robots.txt` (allow all, sitemap link) and `sitemap.xml` (home URL plus headshot image) | `src/app/robots.ts`, `src/app/sitemap.ts` (new) |
+| JSON-LD `@graph`: `ProfilePage` → `Person` (name, job title, photo, employer, region, email, skills from `stack`, `sameAs` LinkedIn + GitHub) and `WebSite`. Only visible facts. `<` is escaped per the Next.js JSON-LD guide | `src/components/StructuredData.tsx` (new), `src/app/page.tsx` |
+| Deploy note on `NEXT_PUBLIC_SITE_URL`, plus an SEO file map | `README.md` |
+
+### Not changed / follow-ups
+- **Action needed: set `NEXT_PUBLIC_SITE_URL`** to the live domain in the hosting environment. The repo doesn't record a domain. On Vercel, builds without it use the `*.vercel.app` production URL; anywhere else, URLs fall back to localhost and previews break.
+- After deploying, refresh LinkedIn's cache with the Post Inspector (linkedin.com/post-inspector), then submit `sitemap.xml` in Google Search Console.
+- No visible UI changes. Hero, sections and theme untouched.
+- Not added (optional): `apple-icon.png` (iOS home-screen icon), a web app manifest, and an X/Twitter `@handle` (none known).
+- `docs/seo/*` describes another project (InvoSpec) and was not used or edited.
+
+### Verification
+- `npx tsc --noEmit`: pass · `npm run lint`: pass · `npm run build`: pass, all routes static (`/`, `/opengraph-image`, `/twitter-image`, `/robots.txt`, `/sitemap.xml`)
+- `next start` with `NEXT_PUBLIC_SITE_URL=https://example-portfolio.com`: `<head>` shows absolute canonical, `og:*`, `twitter:*` and `og:image` (1200×630, `image/png`). JSON-LD parses. robots.txt and sitemap.xml are correct. Both image routes return 200 `image/png`. The image was inspected visually.
+- Without the env var, URLs fall back to `http://localhost:3000` as designed.
+- Theme / 390px check not repeated: the only page markup change is an invisible `<script type="application/ld+json">`.
+
+---
+
 ## 2026-11-22 · v1.4.1 · Fix swapped founder photos
 
 ### Requested

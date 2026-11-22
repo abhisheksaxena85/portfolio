@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
-import { profile } from "@/data/profile";
+import { profile, seo } from "@/data/profile";
+import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -20,29 +21,59 @@ const instrumentSerif = Instrument_Serif({
   style: ["normal", "italic"],
 });
 
-const title = `${profile.name} — ${profile.role}`;
+const [firstName, ...rest] = profile.name.split(" ");
+const lastName = rest.join(" ");
 
+// Preview images (og:image / twitter:image) come from the file conventions
+// src/app/opengraph-image.tsx and src/app/twitter-image.tsx, which Next.js
+// injects automatically with absolute URLs, size, type and alt text.
 export const metadata: Metadata = {
-  title,
-  description: profile.summary,
-  authors: [{ name: profile.name, url: profile.links.github }],
-  keywords: [
-    "Abhishek Saxena",
-    "Flutter developer",
-    "Software engineer",
-    "Mobile developer",
-    "Spring Boot",
-    "Portfolio",
-  ],
+  metadataBase: siteUrl,
+  title: {
+    default: seo.title,
+    template: `%s · ${profile.name}`,
+  },
+  description: seo.description,
+  applicationName: `${profile.name} — Portfolio`,
+  authors: [{ name: profile.name, url: profile.links.linkedin }],
+  creator: profile.name,
+  publisher: profile.name,
+  keywords: [...seo.keywords],
+  category: "technology",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title,
-    description: profile.summary,
     type: "profile",
+    url: "/",
+    siteName: profile.name,
+    locale: seo.locale,
+    title: seo.title,
+    description: seo.description,
+    firstName,
+    lastName,
   },
   twitter: {
-    card: "summary",
-    title,
-    description: profile.summary,
+    card: "summary_large_image",
+    title: seo.title,
+    description: seo.description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  // Stop iOS Safari from auto-linking digits/addresses in the copy.
+  formatDetection: {
+    telephone: false,
+    address: false,
+    email: false,
   },
 };
 

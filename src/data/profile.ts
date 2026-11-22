@@ -22,6 +22,33 @@ export const profile = {
     "Software engineer with 3 years of experience and 20+ projects delivered, working across mobile and backend: Flutter for cross-platform apps, native Android, and Spring Boot on the server. I've taken enterprise products from first commit to production, working alongside a team of ex-Microsoft engineers.",
 } as const;
 
+// Search-engine and link-preview copy (title, meta description, keywords).
+// Keep `description` under ~160 characters so Google doesn't truncate it.
+// The absolute site URL is resolved in src/lib/site.ts (set NEXT_PUBLIC_SITE_URL).
+export const seo = {
+  title: "Abhishek Saxena — Software Engineer | Flutter, Android & Spring Boot",
+  description:
+    "Software engineer with 3 years of experience building Flutter, native Android and Spring Boot apps. 20+ projects delivered, 15+ live in production.",
+  // Short line rendered on the social preview image.
+  tagline: "Mobile & backend: Flutter, native Android and Spring Boot",
+  keywords: [
+    "Abhishek Saxena",
+    "Software Engineer",
+    "Flutter Developer",
+    "Mobile App Developer",
+    "Android Developer",
+    "Spring Boot Developer",
+    "Dart",
+    "Backend Developer",
+    "ElNovaLabs",
+    "Twizzr",
+    "Softboard Lite",
+    "Portfolio",
+    "India",
+  ],
+  locale: "en_US",
+} as const;
+
 // Pre-filled messages for the floating contact buttons.
 export const contactPrompts = {
   emailSubject: "Just visited your portfolio — let's connect",
